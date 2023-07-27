@@ -34,9 +34,7 @@ def generate_branding_snippet(prompt: str) -> str:
     response = openai.Completion.create(
         engine="davinci-instruct-beta", prompt=enriched_prompt, max_tokens=32)
 
-    # extract output text
     branding_text: str = response["choices"][0]["text"]
-    # strip trailing whitespace
     branding_text = branding_text.strip()
     last_char = branding_text[-1]
     # add ellipsis if last char is not a sentence terminator
@@ -56,15 +54,11 @@ def generate_keywords(prompt: str) -> List[str]:
     response = openai.Completion.create(
         engine="davinci-instruct-beta-v3", prompt=enriched_prompt, max_tokens=32)
 
-    # extract output text
     keywords_text: str = response["choices"][0]["text"]
-    # strip trailing whitespace
     keywords_text = keywords_text.strip()
     # split on comma, newline, asterisk, or dash to get array of keywords
     keywords_array = re.split(",|\n|;|-", keywords_text)
-    # lowercase and strip whitespace
     keywords_array = [k.lower().strip() for k in keywords_array]
-    # remove empty strings
     keywords_array = [k for k in keywords_array if k != ""]
 
     print(f"keywords: {keywords_array}")
